@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
-const helper = require('./helper.test')
+const helper = require('./test_helper')
 const Blog = require('../models/blog')
 
 const initialBlogs = [
@@ -91,6 +91,25 @@ test('blog without content is not added', async () => {
 
   const response = await api.get('/api/blogs')
   expect(response.body).toHaveLength(initialBlogs.length)
+})
+
+test('a blog can be deleted', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  expect(blogsAtEnd).toHaveLength(
+    initialBlogs.length - 1
+  )
+
+  const authors = blogsAtEnd.map(r => r.author)
+
+  expect(authors).not.toContain(blogToDelete.author)
 })
 
 afterAll(() => {

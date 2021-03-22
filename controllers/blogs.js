@@ -22,10 +22,12 @@ blogsRouter.post('/blogs', async (request, response, next) => {
         response.json(savedBlog)
       } catch(exception) {
         next(exception)
-      }
+      }      
+})
 
-   
-        
+blogsRouter.delete('/blogs/:id', async (request, response) => {
+  await Blog.findByIdAndRemove(request.params.id)
+  response.status(204).end()
 })
 
 module.exports = blogsRouter
