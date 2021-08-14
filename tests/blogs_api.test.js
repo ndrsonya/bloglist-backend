@@ -55,44 +55,6 @@ test('the first blog is about React patterns', async () => {
   )
 })
 
-test('a valid blog can be added', async () => {
-  const newBlog = {
-      title: "Rrroarr",
-      author: "Michael Chan",
-      url: "https://reactpatterns.com/",
-      likes: 9
-  }
-
-  await api
-      .post('/api/blogs')
-      .send(newBlog)
-      .expect(200)
-      .expect('Content-Type', /application\/json/)
-
-  const response = await api.get('/api/blogs')
-
-  const titles = response.body.map(r => r.title)
-
-  expect(response.body).toHaveLength(initialBlogs.length + 1)
-  expect(titles).toContain(
-      'Rrroarr'
-  )
-})
-
-test('blog without content is not added', async () => {
-  const newBlog = {
-      likes: 5,
-  }
-
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(400)
-
-  const response = await api.get('/api/blogs')
-  expect(response.body).toHaveLength(initialBlogs.length)
-})
-
 test('a blog can be deleted', async () => {
   const blogsAtStart = await helper.blogsInDb()
   const blogToDelete = blogsAtStart[0]
