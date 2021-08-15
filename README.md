@@ -1,6 +1,8 @@
 # BlogList app backend 
 Bloglist is a fullstack app that includes frontend and backend parts. The idea of the project to demnstrate some coding skills in fullstack web development. The backend part was created with Express library with connection do MongoDB, Jest is used as a library for testing. 
 
+You can clone a frontend part from https://github.com/ndrsonya/blogListFront
+
 ## Login credentials
 To log in use "sonya" as user and password
 
